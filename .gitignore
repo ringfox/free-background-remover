@@ -9,6 +9,8 @@ dist/
 .tmp/
 .model-cache/
 public/models/
+public/ort/
 test-fixtures/uploads/
 playwright-report/
 test-results/
+blob-report/

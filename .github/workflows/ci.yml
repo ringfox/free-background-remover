@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm test
+      - run: npm run build
+        env:
+          PUBLIC_MODEL_BASE_URL: https://pub-8351688b2a9b42318f662dc52714bef3.r2.dev/models
+          PUBLIC_ORT_BASE_URL: /ort/
+          PUBLIC_SITE_URL: https://bg.example.com
+          PUBLIC_CONTACT_EMAIL: privacy@example.com
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:e2e

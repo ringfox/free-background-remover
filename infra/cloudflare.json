@@ -1,0 +1,10 @@
+{
+  "accountId": "3cbe3dbbd5650161a784846887f23f94",
+  "bucket": "free-bg-remover-models",
+  "modelPrefix": "models",
+  "ortPrefix": "ort",
+  "modelBaseUrl": "https://pub-8351688b2a9b42318f662dc52714bef3.r2.dev/models",
+  "ortBaseUrl": "https://pub-8351688b2a9b42318f662dc52714bef3.r2.dev/ort",
+  "pagesProject": "free-background-remover",
+  "pagesAssetLimitBytes": 26214400
+}
