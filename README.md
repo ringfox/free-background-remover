@@ -116,7 +116,7 @@ Public URLs (live):
 - `https://pub-8351688b2a9b42318f662dc52714bef3.r2.dev/models/isnet-w8.part01`
 - `https://pub-8351688b2a9b42318f662dc52714bef3.r2.dev/models/isnet-w8.part02`
 
-`npm run model:verify -- --url https://pub-8351688b2a9b42318f662dc52714bef3.r2.dev/models` checks those objects against the table above. A cross-origin `GET` with `Range` returns `Access-Control-Allow-Origin: *`, `Access-Control-Allow-Methods` includes `GET` and `HEAD`, and the response exposes `ETag`, `Content-Length`, `Content-Range`, `Accept-Ranges`, and `Content-Type`. `Cache-Control` is `public, max-age=31536000, immutable`. `Content-Type` is `application/octet-stream`.
+`npm run model:verify -- --url https://pub-8351688b2a9b42318f662dc52714bef3.r2.dev/models` checks those objects against the table above. A cross-origin `GET` with `Range` returns `Access-Control-Allow-Origin: *` and exposes `ETag`, `Content-Length`, `Content-Range`, `Accept-Ranges`, and `Content-Type`. An `OPTIONS` preflight allows `GET` and `HEAD` plus the `Range` header. `Cache-Control` is `public, max-age=31536000, immutable`. `Content-Type` is `application/octet-stream`.
 
 `r2.dev` is Cloudflare’s public development hostname and is rate-limited. For production traffic, attach a custom domain to the bucket and set `PUBLIC_MODEL_BASE_URL` to `https://<that-domain>/models`.
 
