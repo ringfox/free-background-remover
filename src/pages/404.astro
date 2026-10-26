@@ -1,0 +1,14 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'Page not found | Free AI Background Remover';
+const description = 'That page is not on this site. Return to the free in-browser background remover.';
+---
+
+<BaseLayout title={title} description={description} noindex={true}>
+  <article class="prose">
+    <h1>Page not found</h1>
+    <p>That address is not part of this site.</p>
+    <p><a class="button primary" href="/">Back to the background remover</a></p>
+  </article>
+</BaseLayout>

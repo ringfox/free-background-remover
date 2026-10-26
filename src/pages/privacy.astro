@@ -1,0 +1,88 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'Privacy Policy | Free AI Background Remover';
+const description =
+  'Images are processed in your browser and are not uploaded. This policy explains the model download, local cache, and hosting logs.';
+const email = (import.meta.env.PUBLIC_CONTACT_EMAIL ?? '').trim();
+---
+
+<BaseLayout title={title} description={description}>
+  <article class="prose">
+    <h1>Privacy Policy</h1>
+    <p>Last updated October 26, 2026.</p>
+    <p>
+      This page describes the free background remover as it is built: a static website with no
+      accounts, no image database, and no server-side image processing. It is written in plain
+      language. It is not a promise that third parties, such as your network provider, are unable
+      to see that you visited the site.
+    </p>
+
+    <h2>Images you select</h2>
+    <p>
+      When you choose a photo, the browser decodes it locally. The ISNet model runs in a worker on
+      your device, and the transparent PNG is built on a canvas in your browser. The image pixels
+      are not included in a request to our server, because there is no upload endpoint. We do not
+      write your photo to a database. The app does not put the photo into the Cache API or IndexedDB.
+    </p>
+    <p>
+      The photo remains in the page’s memory until you leave or replace it. Downloading the PNG
+      saves it wherever your browser normally saves files. Clearing the tab drops the in-memory copy.
+    </p>
+
+    <h2>The model download</h2>
+    <p>
+      The segmentation weights are the public Apache-2.0 ISNet int8 files
+      (<code>isnet-w8.part00</code>, <code>isnet-w8.part01</code>, and <code>isnet-w8.part02</code>).
+      They are fetched from the base URL configured at build time as <code>PUBLIC_MODEL_BASE_URL</code>.
+      In production that host is a public Cloudflare R2 bucket or a custom domain in front of it.
+      That request contains the usual connection data (including your IP address) because your
+      browser is downloading a file. It does not contain your image.
+    </p>
+    <p>
+      After a successful checksum, the parts are stored in the browser Cache API and in IndexedDB
+      under a key derived from the model version and checksum. That cache exists so the next visit
+      does not download about 45 MB again. You can remove it by clearing site data for this origin.
+    </p>
+
+    <h2>What we do not collect in the app</h2>
+    <ul>
+      <li>No account, name, or email is required to use the tool.</li>
+      <li>The site does not run advertising or analytics scripts.</li>
+      <li>The application code does not set cookies.</li>
+      <li>There is no payment provider.</li>
+    </ul>
+
+    <h2>Hosting logs</h2>
+    <p>
+      The HTML, CSS, JavaScript, and ONNX Runtime files are static assets on Cloudflare Pages. The
+      model files are objects on Cloudflare R2. Cloudflare processes those requests as the host.
+      Their systems may log IP address, user agent, and the URL of the asset for security and
+      operations. Those logs are not an upload of your photo. Cloudflare’s own privacy notice
+      describes how they handle that operational data.
+    </p>
+
+    <h2>Contact mail</h2>
+    <p>
+      If you email us, we receive whatever you put in that message, including the address you send
+      from. Don’t attach sensitive photos. We use the message only to reply.
+      {email ? (
+        <> The contact address is <a href={`mailto:${email}`}>{email}</a>.</>
+      ) : (
+        <> A contact address has not been configured yet. Set <code>PUBLIC_CONTACT_EMAIL</code> before launch.</>
+      )}
+    </p>
+
+    <h2>Children</h2>
+    <p>
+      The site is a general-audience utility. It is not directed at children, and it does not ask
+      for anyone’s age or identity.
+    </p>
+
+    <h2>Changes</h2>
+    <p>
+      If this policy changes, the date at the top of the page will change with the text. Continued
+      use of the static site after an update means you are using the version then published.
+    </p>
+  </article>
+</BaseLayout>

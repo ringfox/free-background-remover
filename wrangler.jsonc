@@ -1,0 +1,7 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "free-background-remover",
+  "compatibility_date": "2026-10-26",
+  "pages_build_output_dir": "dist",
+  "account_id": "3cbe3dbbd5650161a784846887f23f94"
+}

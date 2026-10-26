@@ -1,0 +1,50 @@
+{
+  "name": "free-background-remover",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "node scripts/copy-ort-wasm.mjs && astro dev",
+    "build": "node scripts/copy-ort-wasm.mjs --pages-safe && astro build && node scripts/apply-csp.mjs",
+    "preview": "astro preview",
+    "typecheck": "astro check",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "test:e2e:real": "E2E_REAL=1 playwright test --project=real",
+    "assets": "node scripts/generate-assets.mjs",
+    "model:download": "node scripts/download-model.mjs",
+    "model:verify": "node scripts/verify-model.mjs",
+    "model:upload": "node scripts/upload-model.mjs",
+    "runtime:upload": "node scripts/upload-ort.mjs",
+    "r2:cors": "node scripts/apply-r2-cors.mjs",
+    "deploy": "npm run build && wrangler pages deploy dist --project-name free-background-remover"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.12",
+    "@astrojs/react": "^7.1.1",
+    "@astrojs/sitemap": "^3.7.4",
+    "astro": "^7.4.2",
+    "onnxruntime-web": "^1.30.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "typescript": "^6.0.3"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.64.1",
+    "@types/pngjs": "^6.0.5",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "eslint": "^10.13.0",
+    "eslint-plugin-astro": "^3.2.1",
+    "globals": "^17.13.0",
+    "pngjs": "^7.0.0",
+    "typescript-eslint": "^8.72.0",
+    "vitest": "^5.0.5",
+    "wrangler": "^4.152.0"
+  }
+}

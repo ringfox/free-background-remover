@@ -1,0 +1,77 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'Terms of Use | Free AI Background Remover';
+const description =
+  'Plain-language terms for the free in-browser background remover: local processing, no warranty, and your responsibility for the images you use.';
+const email = (import.meta.env.PUBLIC_CONTACT_EMAIL ?? '').trim();
+---
+
+<BaseLayout title={title} description={description}>
+  <article class="prose">
+    <h1>Terms of Use</h1>
+    <p>Last updated October 26, 2026.</p>
+    <p>
+      This free tool removes backgrounds in your web browser. By using the site you agree to these
+      terms. If you do not agree, don’t use the site. These terms are a plain-language agreement
+      from the site operator. They are not a substitute for advice from your own lawyer.
+    </p>
+
+    <h2>The service</h2>
+    <p>
+      The page lets you pick an image, run the public ISNet int8 model on your device, and download
+      a transparent PNG. There is no account and no fee charged by this site. Processing happens
+      locally. Output quality varies. Hair, glass, fine detail, and unusual subjects can look wrong.
+      You are responsible for checking the PNG before you publish it.
+    </p>
+
+    <h2>Your images</h2>
+    <p>
+      You keep whatever rights you already have in images you process. You confirm that you have
+      the rights needed to use those images this way. Don’t use the tool to infringe copyright,
+      violate privacy, or break the law. The site operator does not receive a copy of your image
+      through the tool and does not review cutouts.
+    </p>
+
+    <h2>The model and the software</h2>
+    <p>
+      The segmentation weights come from the Apache-2.0 project
+      <a href="https://huggingface.co/chenjindu/isnet-web">chenjindu/isnet-web</a>. The browser
+      preprocess and composite follow the Apache-2.0 reference implementation linked from that model
+      card. Those upstream licenses still apply to those parts. The website does not grant you a
+      license to anyone else’s photos, trademarks, or publicity rights.
+    </p>
+
+    <h2>Acceptable use</h2>
+    <ul>
+      <li>Don’t attack the site, the model host, or other people through this service.</li>
+      <li>Don’t bypass technical limits in order to disrupt the static hosting.</li>
+      <li>Don’t present the cutout as a guaranteed, official, or human-reviewed edit.</li>
+      <li>Don’t use the tool where a mistake in the matte could cause harm you are not willing to own.</li>
+    </ul>
+
+    <h2>No warranty</h2>
+    <p>
+      The site is provided as-is and as-available. It may be slow, wrong, interrupted, or withdrawn.
+      To the extent the law allows, the operator disclaims warranties of merchantability, fitness
+      for a particular purpose, and non-infringement. The operator is not liable for lost profits,
+      lost files, or decisions you make from a cutout. Some places do not allow these limits. In
+      those places, the limits apply only as far as the law permits. The operator’s total liability
+      for a claim about the site is limited to zero, because the tool is offered at no charge,
+      unless a law requires otherwise.
+    </p>
+
+    <h2>Disputes and changes</h2>
+    <p>
+      These terms do not pick a court or a governing-law clause, because the operator has not
+      published one. If you have a problem, contact us first and describe what happened.
+      {email ? (
+        <> Email <a href={`mailto:${email}`}>{email}</a>.</>
+      ) : (
+        <> Publish <code>PUBLIC_CONTACT_EMAIL</code> so people can reach the operator.</>
+      )}
+      The operator may update the site and these terms by changing the published pages. The date
+      above tracks the current text.
+    </p>
+  </article>
+</BaseLayout>

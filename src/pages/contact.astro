@@ -1,0 +1,39 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'Contact | Free AI Background Remover';
+const description =
+  'Contact the operator of this free background remover. The site has no account system and no server-side contact form.';
+const email = (import.meta.env.PUBLIC_CONTACT_EMAIL ?? '').trim();
+---
+
+<BaseLayout title={title} description={description}>
+  <article class="prose">
+    <h1>Contact</h1>
+    <p>
+      This site has no login and no database, so there is no in-browser support inbox. Email is the
+      way to reach the operator. Please don’t send the photo you were editing. The image never
+      needed to leave your device, and email would create a copy the tool itself does not keep.
+    </p>
+    {email ? (
+      <p>
+        <a class="button primary" href={`mailto:${email}?subject=Background%20Remover`}>Email {email}</a>
+      </p>
+    ) : (
+      <p>
+        No contact address is configured for this build. Set <code>PUBLIC_CONTACT_EMAIL</code> and
+        rebuild the site before you publish it.
+      </p>
+    )}
+    <h2>What to include</h2>
+    <ul>
+      <li>The page you were on and what you expected to happen.</li>
+      <li>Your browser and whether the status line mentioned WASM or WebGPU.</li>
+      <li>The wording of any error. Leave out the image itself.</li>
+    </ul>
+    <p>
+      Privacy questions are covered in the <a href="/privacy/">privacy policy</a>. Rules for using
+      the tool are in the <a href="/terms/">terms of use</a>.
+    </p>
+  </article>
+</BaseLayout>

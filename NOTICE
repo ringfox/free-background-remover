@@ -1,0 +1,12 @@
+This project adapts the in-browser ISNet preprocess and composite from
+chenjindu/browser-remove-background (Apache-2.0):
+
+https://github.com/chenjindu/browser-remove-background/blob/main/index.html
+
+The segmentation weights are the Apache-2.0 ISNet int8 export published at
+https://huggingface.co/chenjindu/isnet-web. Those files are not stored in this
+repository. They are downloaded by scripts/download-model.mjs and hosted by
+the site operator on Cloudflare R2.
+
+ONNX Runtime Web is MIT licensed and is loaded from the npm package
+onnxruntime-web.

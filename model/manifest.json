@@ -1,0 +1,27 @@
+{
+  "id": "isnet-w8",
+  "license": "Apache-2.0",
+  "source": "https://huggingface.co/chenjindu/isnet-web",
+  "referenceImplementation": "https://github.com/chenjindu/browser-remove-background/blob/main/index.html",
+  "inputName": "input_image",
+  "outputName": "output_image",
+  "inputSize": 1024,
+  "cacheVersion": "isnet-w8-v1",
+  "parts": [
+    {
+      "file": "isnet-w8.part00",
+      "bytes": 20971520,
+      "sha256": "4a9400b963ab3c6b6458026afe0e5e0d0d62b5a80d9373ea9b292835df3b3081"
+    },
+    {
+      "file": "isnet-w8.part01",
+      "bytes": 20971520,
+      "sha256": "0486a7019b37b985504a70ecbe378b103feb1555bc43c0bc543c703503a98296"
+    },
+    {
+      "file": "isnet-w8.part02",
+      "bytes": 4771450,
+      "sha256": "84fa00f9b72f85fb6af7833c54560d635cc05d0dfad7bce6ce623145fe6acc27"
+    }
+  ]
+}

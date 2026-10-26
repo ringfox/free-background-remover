@@ -1,0 +1,95 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import HeroArt from '../components/HeroArt.astro';
+import BackgroundRemover from '../components/BackgroundRemover';
+import { SITE_DESCRIPTION, SITE_NAME, SITE_TITLE, faqs, steps } from '../lib/site';
+
+const canonical = new URL('/', Astro.site);
+const appLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: SITE_TITLE,
+  applicationCategory: 'MultimediaApplication',
+  operatingSystem: 'Web',
+  browserRequirements: 'Requires a modern browser with WebAssembly.',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  description: SITE_DESCRIPTION,
+  url: canonical.href,
+  isAccessibleForFree: true,
+};
+const faqLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: { '@type': 'Answer', text: item.answer },
+  })),
+};
+const json = (value: unknown) => JSON.stringify(value).replace(/</g, '\\u003c');
+---
+
+<BaseLayout title={SITE_TITLE} description={SITE_DESCRIPTION}>
+  <script slot="head" type="application/ld+json" set:html={json(appLd)}></script>
+  <script slot="head" type="application/ld+json" set:html={json(faqLd)}></script>
+
+  <section class="hero">
+    <div>
+      <p class="kicker">{SITE_NAME}</p>
+      <h1>{SITE_TITLE}</h1>
+      <p class="lede">
+        Cut out a subject and download a transparent PNG. ISNet runs locally in your browser, so the
+        photo is never uploaded. The first run downloads the model. Repeat visits use the cached copy.
+      </p>
+    </div>
+    <HeroArt />
+  </section>
+
+  <section class="panel" id="tool" aria-labelledby="tool-title">
+    <noscript>
+      <p class="noscript">
+        This tool needs JavaScript to run the model on your device. Your image is still not uploaded.
+        The how-to and FAQ below explain what the page does.
+      </p>
+    </noscript>
+    <BackgroundRemover client:load />
+  </section>
+
+  <section class="section" id="how-it-works">
+    <h2>How to remove a background</h2>
+    <p class="section-intro">Three steps. No account, and no server-side image processing.</p>
+    <ol class="steps">
+      {steps.map((step) => (
+        <li>
+          <strong>{step.title}</strong>
+          <span>{step.text}</span>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section class="section" id="faq">
+    <h2>Questions</h2>
+    <div class="faq">
+      {faqs.map((item) => (
+        <details class="faq-item">
+          <summary>{item.question}</summary>
+          <p>{item.answer}</p>
+        </details>
+      ))}
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="privacy-blurb">
+    <div class="callout">
+      <h2 id="privacy-blurb">Your image stays in the browser</h2>
+      <p>
+        Choosing a file does not send it anywhere. Segmentation and the transparent PNG are produced
+        on this device. The only file this page fetches for the tool is the public ISNet model from
+        the host in <code>PUBLIC_MODEL_BASE_URL</code> (Cloudflare R2 in production). Read the
+        <a href="/privacy/">privacy policy</a> for what the host can still see, such as ordinary
+        request logs for the page and the model download.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
