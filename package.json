@@ -21,7 +21,7 @@
     "model:upload": "node scripts/upload-model.mjs",
     "runtime:upload": "node scripts/upload-ort.mjs",
     "r2:cors": "node scripts/apply-r2-cors.mjs",
-    "deploy": "npm run build && wrangler pages deploy dist --project-name free-background-remover"
+    "deploy": "node scripts/deploy-pages.mjs"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.12",

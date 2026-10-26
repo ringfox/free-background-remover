@@ -88,7 +88,7 @@ Then set `PUBLIC_MODEL_BASE_URL=/models/` in `.env` and restart `npm run dev`. `
 | `npm run model:upload` | Upload the parts to R2 with Wrangler. |
 | `npm run runtime:upload` | Upload ONNX Runtime wasm/js to R2 (needed for WebGPU; see below). |
 | `npm run r2:cors` | Apply `infra/r2-cors.json`. This overwrites the bucket CORS policy. |
-| `npm run deploy` | Build, then `wrangler pages deploy dist`. |
+| `npm run deploy` | Build with the live model URL, then `wrangler pages deploy dist`. Requires `CLOUDFLARE_API_TOKEN`. |
 
 ## Tests and what they do not claim
 
@@ -110,15 +110,17 @@ Objects (not in git):
 | `models/isnet-w8.part01` | 20971520 | `0486a7019b37b985504a70ecbe378b103feb1555bc43c0bc543c703503a98296` |
 | `models/isnet-w8.part02` | 4771450 | `84fa00f9b72f85fb6af7833c54560d635cc05d0dfad7bce6ce623145fe6acc27` |
 
-Public URLs, once uploaded:
+Public URLs (live):
 
 - `https://pub-8351688b2a9b42318f662dc52714bef3.r2.dev/models/isnet-w8.part00`
 - `https://pub-8351688b2a9b42318f662dc52714bef3.r2.dev/models/isnet-w8.part01`
 - `https://pub-8351688b2a9b42318f662dc52714bef3.r2.dev/models/isnet-w8.part02`
 
+`npm run model:verify -- --url https://pub-8351688b2a9b42318f662dc52714bef3.r2.dev/models` checks those objects against the table above. A cross-origin `GET` with `Range` returns `Access-Control-Allow-Origin: *`, `Access-Control-Allow-Methods` includes `GET` and `HEAD`, and the response exposes `ETag`, `Content-Length`, `Content-Range`, `Accept-Ranges`, and `Content-Type`. `Cache-Control` is `public, max-age=31536000, immutable`. `Content-Type` is `application/octet-stream`.
+
 `r2.dev` is Cloudflare’s public development hostname and is rate-limited. For production traffic, attach a custom domain to the bucket and set `PUBLIC_MODEL_BASE_URL` to `https://<that-domain>/models`.
 
-Upload from a machine that is already logged in to Wrangler (`npx wrangler login`). This does not create or print an API token.
+The objects above are already public. Run the upload commands only to replace them. Wrangler uses `CLOUDFLARE_API_TOKEN` when it is set, or an existing `npx wrangler login` session. This repo does not store a token.
 
 ```sh
 npm run model:download
@@ -179,17 +181,24 @@ Rebuild. `wasmPaths` has to be a single directory, so the R2 prefix must contain
 
 `wrangler.jsonc` names the project `free-background-remover`, sets the account id, and points `pages_build_output_dir` at `dist/`.
 
-Direct upload from a logged-in machine:
+Direct upload. `npm run deploy` builds with `PUBLIC_MODEL_BASE_URL` (defaulting to the live R2 base) and `PUBLIC_ORT_BASE_URL` (default `/ort/`), then uploads `dist/` with Wrangler. Set the API token in the environment. Do not commit it. The account id defaults to `3cbe3dbbd5650161a784846887f23f94`.
 
 ```sh
+export CLOUDFLARE_API_TOKEN=...
+export CLOUDFLARE_ACCOUNT_ID=3cbe3dbbd5650161a784846887f23f94
+export PUBLIC_SITE_URL=https://<pages-hostname>
+export PUBLIC_CONTACT_EMAIL=privacy@example.com
+export PUBLIC_MODEL_BASE_URL=https://pub-8351688b2a9b42318f662dc52714bef3.r2.dev/models
 npm run deploy
 ```
 
-which is `npm run build` followed by:
+That runs `node scripts/deploy-pages.mjs`, which is a production build plus:
 
 ```sh
-npx wrangler pages deploy dist --project-name free-background-remover
+npx wrangler pages deploy dist --project-name free-background-remover --commit-dirty
 ```
+
+Set `PUBLIC_SITE_URL` to the hostname Pages gives the project (no path) before the build you publish. If `CLOUDFLARE_API_TOKEN` is missing, the script stops before the build and does not prompt for login.
 
 Git integration ([build configuration](https://developers.cloudflare.com/pages/configuration/build-configuration/)):
 
